@@ -34,10 +34,13 @@ list.insertAdjacentHTML("afterbegin", createMarkup(galleryItems));
 console.log(galleryItems);
 
 /****** Реалізація делегування на ul.gallery і отримання url великого зображення. ******/
-
+const image = document.querySelector("img");
 list.addEventListener("click", handlerClick);
 
 function handlerClick(evt) {
+  if (evt === evt.target) {
+    image.setAttribute(original);
+  }
   console.log(evt.target, "target");
   console.log(evt.currentTarget);
 }
