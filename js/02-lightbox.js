@@ -19,4 +19,7 @@ function createMarkup(arr) {
     .join("");
 }
 galleryList.insertAdjacentHTML("afterbegin", createMarkup(galleryItems));
-console.log(cloudflare);
+var lightbox = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionDelay: 250,
+});
