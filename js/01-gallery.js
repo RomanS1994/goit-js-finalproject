@@ -9,6 +9,8 @@ import { galleryItems } from "./gallery-items.js";
 //   },
 
 let list = document.querySelector(".gallery");
+const image = document.querySelector("img");
+
 /****** Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї. ******/
 
 function createMarkup(arr) {
@@ -31,16 +33,32 @@ function createMarkup(arr) {
 
 list.insertAdjacentHTML("afterbegin", createMarkup(galleryItems));
 
-console.log(galleryItems);
-
-/****** Реалізація делегування на ul.gallery і отримання url великого зображення. ******/
-const image = document.querySelector("img");
 list.addEventListener("click", handlerClick);
 
 function handlerClick(evt) {
-  if (evt === evt.target) {
-    image.setAttribute(original);
+  if (!evt.target.classList.contains("gallery__image")) {
+    return;
   }
-  console.log(evt.target, "target");
-  console.log(evt.currentTarget);
+  evt.preventDefault();
+  console.dir(evt.target);
+  const instance = basicLightbox.create(
+    `
+  <img src="${evt.target.dataset.source}" width="800" height="600">
+    `,
+    {
+      onShow: (instance) => {
+        list.addEventListener("keydown", onKeydown);
+      },
+      onClose: (instance) => {
+        list.removeEventListener("keydown", onKeydown);
+      },
+    }
+  );
+  function onKeydown(evt) {
+    if (evt.code === "Escape") {
+      instance.close();
+    }
+  }
+
+  instance.show();
 }
